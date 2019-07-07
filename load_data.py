@@ -64,17 +64,6 @@ class Dataset(object):
 
             observations = np.array(observations)
             actions = np.array(actions)
-            # observation_action = np.array(observations + actions)
-            game_lengths = np.array(game_lengths)
-
-            obs_act_len = np.shape(observations)[1] + np.shape(actions)[1] # Add lens of observations and action vectors
-            max_game_len = len(max(data_bank[agent], key=len))
-
-            # convert nested uneven list of adhoc games into padded numpy array
-            games = np.zeros(shape=(len(games), max_game_len, obs_act_len))
-            for game_index in range(len(game_lengths)):
-                games[game_index, :game_lengths[game_index], :] = \
-                    np.asarray(games[game_index])
 
             yield observations, actions
 
