@@ -8,9 +8,22 @@ fork/clone repo into your home folder
 cd ~/ganabi/hanabi-env
 cmake .
 make
-cd ..
-source /data1/shared/venvg2/bin/activate # use venvg for python 3 
-mkdir data # FIXME: should get created if it doesn't exist
-python create_data.py
 ```
 
+### How to Run:
+```
+virtualenv venv2 --python==python2
+virtualenv venv3 --python==python3
+
+source /venv2/bin/activate
+
+pip install -r requirements.txt
+
+python create_data.py
+
+source /venv3/bin/activate
+
+pip install -r requirements.txt
+
+python run_experiment.py -newrun --mode="naive_mlp" --configpath="./config.gin"
+```
