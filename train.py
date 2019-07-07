@@ -40,7 +40,8 @@ def main(data, args):
         verbose=2,  # one line per epoch
         epochs=trainer.epochs,  # = total data / batch_size
         shuffle=True,
-        steps_per_epoch=10)
+        steps_per_epoch=3,
+        validation_steps=2)
 
     return model
 
