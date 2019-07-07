@@ -1,11 +1,13 @@
 from utils import parse_args
 from collections import defaultdict
 import pickle
-import sys
-from hanabi_env import rl_env
+import importlib
 import gin
 import os
-import importlib
+
+import sys
+sys.path.insert(0, './hanabi-env') #FIXME
+import rl_env
 
 
 def import_agents(agents_dir, agent_config):
@@ -20,6 +22,7 @@ def import_agents(agents_dir, agent_config):
     available_agents = {}
     sys.path.insert(0, agents_dir)
 
+    '''
     # TODO: Fix args/ add single dir to import agents
     # Modification to only get one agent
     for index, agent_filename in enumerate(os.listdir(agents_dir)):
@@ -30,15 +33,14 @@ def import_agents(agents_dir, agent_config):
         agent_name = os.path.splitext(agent_filename)[0]
         agent_module = importlib.import_module(agent_name)
         available_agents[agent_name] = agent_module.Agent(agent_config)
-
-    '''    
+    '''
     for agent_filename in os.listdir(agents_dir):
         if 'agent' not in agent_filename:
             continue 
         agent_name = os.path.splitext(agent_filename)[0]
         agent_module = importlib.import_module(agent_name)
         available_agents[agent_name] = agent_module.Agent(agent_config)
-    '''
+
     return available_agents
 
 
@@ -53,7 +55,6 @@ def one_hot_vectorized_action(agent, action_vector_len, obs):
 
 @gin.configurable
 class Dataset(object):
-    @gin.configurable
     def __init__(self,
                  args,
                  game_type='Hanabi-Full',

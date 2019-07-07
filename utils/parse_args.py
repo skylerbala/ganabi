@@ -2,6 +2,7 @@ import os
 import gin
 import argparse
 
+
 def parse():
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', 
@@ -41,6 +42,7 @@ def parse():
     args = parser.parse_args()
     return args
 
+
 def resolve_datapath(args,
         game_type='Hanabi-Full',
         num_players=2,
@@ -53,6 +55,7 @@ def resolve_datapath(args,
         args.datapath = os.path.join(args.datadir, data_filename)
 
     return args
+
 
 def resolve_configpath(args):
     if args.configpath == None:

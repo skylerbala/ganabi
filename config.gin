@@ -1,8 +1,3 @@
-Dataset.game_type='Hanabi-Full'
-Dataset.num_unique_agents=1
-Dataset.num_games=10
-
-
 Trainer.optimizer='Adam'
 Trainer.loss='categorical_crossentropy'
 Trainer.metrics=['accuracy']

@@ -2,6 +2,7 @@ from utils import parse_args
 import importlib
 import load_data
 import gin
+import sys
 
 
 @gin.configurable
@@ -24,6 +25,7 @@ def main(data, args):
     trainer = Trainer(args)  # gin configured
 
     # FIXME: combine into one line once stuff works
+    sys.path.insert(0, args.modedir)
     mode_module = importlib.import_module(args.mode)
     model = mode_module.build_model(args)
 
@@ -33,8 +35,8 @@ def main(data, args):
         metrics=trainer.metrics)
 
     tr_history = model.fit_generator(
-        generator=data.generator('train'),
-        validation_data=data.generator('validation'),
+        generator=data.naive_generator(trainer.batch_size, 'train'),
+        validation_data=data.naive_generator(trainer.batch_size, 'validation'),
         verbose=2,  # one line per epoch
         batch_size=trainer.batch_size,
         epochs=trainer.epochs,  # = total data / batch_size
@@ -45,7 +47,7 @@ def main(data, args):
 
 
 if __name__ == "__main__":
-    args = parse_args.parse_with_resolved_paths()
+    args = parse_args.parse()
     gin.parse_config_file(args.configpath)
     data = load_data.main(args)
     main(data, args)

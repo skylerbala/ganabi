@@ -8,7 +8,6 @@ import numpy as np
 
 @gin.configurable
 class Dataset(object):
-    @gin.configurable
     def __init__(self,
                  game_type='Hanabi-Full',
                  num_players=2,
@@ -36,7 +35,7 @@ class Dataset(object):
 
         self.test_data[test_agent] = raw_data[test_agent]
 
-    def naive_generator(self, batch_type='train'):
+    def naive_generator(self, batch_size, batch_type='train'):
         observations, actions = [], []
 
         if batch_type == 'train':
@@ -46,26 +45,38 @@ class Dataset(object):
         elif batch_type == 'test':
             data_bank = self.test_data
 
-        num_of_agents = len(data_bank.keys())
+        agent = list(data_bank)[0]
+        games = random.sample(data_bank[agent], batch_size)
+        game_lengths = [len(game[0]) for game in games]
 
-        if num_of_agents == 1:
-            agent = random.choice(data_bank.keys())
+        final_games = []
 
-            for game in games:
-                game_obs = game[0]
-                game_acts = game[1]
+        for i in range(len(games)):
+            for i_len in range(game_lengths[i]):
+                final_games.append(games[i][0][i_len] + games[i][1][i_len])
 
-                for game_ob in game_obs:
-                    observations.append(game_ob)
-
-                for game_act in game_acts:
-                    actions.append(game_act)
+        for i in range(len(games)):
+            rand_game = random.choice(list(data_bank[agent]))
+            step_num = random.randint(0, len(rand_game[0]) - 1)
+            observations.append(rand_game[0][step_num])
+            actions.append(rand_game[1][step_num])
 
         observations = np.array(observations)
         actions = np.array(actions)
+        game_lengths = np.array(game_lengths)
 
-        return observations, actions
+        obs_act_len = np.shape(observations)[1] + np.shape(actions)[1] # Add lens of observations and action vectors
+        max_game_len = len(max(data_bank[agent], key=len))
 
+        # convert nested uneven list of adhoc games into padded numpy array
+        games = np.zeros(shape=(len(games), max_game_len, obs_act_len))
+        for game_index in range(len(game_lengths)):
+            games[game_index, :game_lengths[game_index], :] = \
+                np.asarray(games[game_index])
+
+        return [observations, actions], actions
+
+    '''
     def generator(self, batch_type='train'):
         if batch_type == 'train':
             data_bank = self.train_data
@@ -107,6 +118,7 @@ class Dataset(object):
 
         # FIXME: needs to return same_act
         return ([np_adhoc_games, game_lengths, agent_obs], agent_act)
+    '''
 
 
 def main(args):
@@ -126,8 +138,6 @@ def main(args):
 
     data.read(raw_data)
 
-    import pdb;
-    pdb.set_trace()
     return data
 
 
