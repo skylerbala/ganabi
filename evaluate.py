@@ -20,3 +20,6 @@ if __name__ == "__main__":
     data_reader = create_data.main(args)
     model = train.main(data_reader, args)
     main(model, data_reader, args)
+
+
+# 10 games training; you can validate on more than 10 games

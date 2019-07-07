@@ -10,7 +10,7 @@ sys.path.insert(0, './hanabi-env') #FIXME
 import rl_env
 
 
-def import_agents(agents_dir, agent_config):
+def import_agents(agents_dir, num_unique_agents, agent_config):
     """
     Returns:
         available_agents: dict
@@ -22,24 +22,15 @@ def import_agents(agents_dir, agent_config):
     available_agents = {}
     sys.path.insert(0, agents_dir)
 
-    '''
     # TODO: Fix args/ add single dir to import agents
-    # Modification to only get one agent
-    for index, agent_filename in enumerate(os.listdir(agents_dir)):
-        if index != 0:
-            continue
-        if 'agent' not in agent_filename:
-            continue
-        agent_name = os.path.splitext(agent_filename)[0]
-        agent_module = importlib.import_module(agent_name)
-        available_agents[agent_name] = agent_module.Agent(agent_config)
-    '''
     for agent_filename in os.listdir(agents_dir):
         if 'agent' not in agent_filename:
-            continue 
+            continue
         agent_name = os.path.splitext(agent_filename)[0]
         agent_module = importlib.import_module(agent_name)
         available_agents[agent_name] = agent_module.Agent(agent_config)
+        if len(available_agents.keys()) == num_unique_agents:
+            break
 
     return available_agents
 
@@ -71,7 +62,7 @@ class Dataset(object):
             'num_moves': self.environment.num_moves(),
             'observation_size': self.environment.vectorized_observation_shape()[0]
         }
-        self.available_agents = import_agents(args.agentdir, self.agent_config)
+        self.available_agents = import_agents(args.agentdir, num_unique_agents, self.agent_config)
 
     def create_data(self):
         """
@@ -106,8 +97,6 @@ class Dataset(object):
                             agent1b action vector
                             ...
                         ]
-                    },
-                    <Game2>: {
                     },
                 ]
             }

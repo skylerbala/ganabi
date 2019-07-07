@@ -27,15 +27,48 @@ class Dataset(object):
         test_agent = random.choice(list(raw_data.keys()))
 
         for agent in raw_data:
-            if agent == test_agent:
+            if agent == test_agent and len(raw_data.keys()) != 1:
                 continue
-            split_idx = int(0.75 * len(raw_data[agent]))
+            split_idx = int(0.5 * len(raw_data[agent]))
             self.train_data[agent] = raw_data[agent][:split_idx]
             self.validation_data[agent] = raw_data[agent][split_idx:]
 
         self.test_data[test_agent] = raw_data[test_agent]
 
     def naive_generator(self, batch_size, batch_type='train'):
+        '''
+        10*moves = samples
+        batch_size = 32
+        steps = 100
+        1 epoch = 100 steps
+        :param batch_size:
+        :param batch_type:
+        :return:
+        '''
+
+        while True:
+            observations, actions = [], []
+
+            if batch_type == 'train':
+                data_bank = self.train_data
+            elif batch_type == 'validation':
+                data_bank = self.validation_data
+            elif batch_type == 'test':
+                data_bank = self.test_data
+
+            agent = random.choice(list(data_bank))
+
+            for _ in range(batch_size):
+                game = random.choice(data_bank[agent])
+                for move in range(len(game)):
+                    observations.append(game[0][move])
+                    actions.append(game[1][move])
+
+            observations = np.array(observations)
+            actions = np.array(actions)
+
+            yield observations, actions
+        '''
         while True:
             observations, actions = [], []
 
@@ -66,6 +99,7 @@ class Dataset(object):
             actions = np.array(actions)
 
             yield observations, actions
+        '''
 
     '''
     def generator(self, batch_type='train'):
