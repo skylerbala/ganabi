@@ -1,8 +1,5 @@
-# This mode is for the full model with all the bells and whistles.
-
 from keras.layers import Input, Dense, Activation
 from keras.models import Model
-import gin
 
 
 def build_model(args, cfg={}):

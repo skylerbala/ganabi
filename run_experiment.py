@@ -16,7 +16,7 @@ def main():
 
     #train model/load model
     model = train.main(data, args)
-
+    print('gang')
     #evaluate model
     # evaluate.main(data, model, args)
 

@@ -38,10 +38,9 @@ def main(data, args):
         generator=data.naive_generator(trainer.batch_size, 'train'),
         validation_data=data.naive_generator(trainer.batch_size, 'validation'),
         verbose=2,  # one line per epoch
-        batch_size=trainer.batch_size,
         epochs=trainer.epochs,  # = total data / batch_size
-        validation_split=0.1,  # fraction of data used for val
-        shuffle=True)
+        shuffle=True,
+        steps_per_epoch=10)
 
     return model
 

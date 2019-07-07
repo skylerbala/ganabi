@@ -29,7 +29,7 @@ class Dataset(object):
         for agent in raw_data:
             if agent == test_agent:
                 continue
-            split_idx = int(0.9 * len(raw_data[agent]))
+            split_idx = int(0.75 * len(raw_data[agent]))
             self.train_data[agent] = raw_data[agent][:split_idx]
             self.validation_data[agent] = raw_data[agent][split_idx:]
 
