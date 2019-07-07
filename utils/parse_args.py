@@ -20,7 +20,7 @@ def parse():
     parser.add_argument('--datapath',
                         help='set automatically; specify only if data in unusual loc')
 
-    parser.add_argument('--expertdir',
+    parser.add_argument('--agentdir',
                         default='./experts')
 
     parser.add_argument('--ckptdir')

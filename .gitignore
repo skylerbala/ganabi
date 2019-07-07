@@ -8,3 +8,5 @@ CMakeFiles
 *.pyc
 data
 output
+.idea/
+venv/

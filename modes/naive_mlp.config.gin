@@ -1,0 +1,6 @@
+# bind the loss function before parsing the config file
+gin.external_configurable(keras.losses.categorical_crossentropy, module='keras.losses')
+gin.parse_config_file(args.configpath)
+
+# config.gin
+train.Trainer.loss = @keras.losses.categorical_crossentropy
