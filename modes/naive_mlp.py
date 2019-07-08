@@ -3,7 +3,7 @@ from keras.models import Model
 
 
 def build_model(args, cfg={}):
-    observation_input = Input(shape=(4, 658))
+    observation_input = Input(shape=(3, 658))
 
     lstm1 = LSTM(512)(observation_input)
     h1 = Dense(512, activation=Activation('relu'))(lstm1)
