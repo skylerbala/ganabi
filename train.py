@@ -38,8 +38,8 @@ def main(data, args):
 
     agent = random.choice(list(data.train_data))
 
-    steps_per_epoch = sum([len(game[0]) for game in data.train_data[agent]])
-    validation_steps = sum([len(game[0]) for game in data.validation_data[agent]])
+    steps_per_epoch = sum([len(game[0]) for game in data.train_data[agent]]) / 6
+    validation_steps = sum([len(game[0]) for game in data.validation_data[agent]]) / 6
 
     print('# Fit model on training data')
     history = model.fit_generator(

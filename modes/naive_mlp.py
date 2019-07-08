@@ -1,14 +1,14 @@
-from keras.layers import Input, Dense, Activation, Dropout, LSTM
+from keras.layers import Input, Dense, Activation, Dropout, LSTM, GRU
 from keras.models import Model
 
 
 def build_model(args, cfg={}):
-    observation_input = Input(shape=(3, 658))
+    observation_input = Input(shape=(4, 658))
 
-    lstm1 = LSTM(512)(observation_input)
-    h1 = Dense(512, activation=Activation('relu'))(lstm1)
-    d1 = Dropout(0.25)(h1)
-    h2 = Dense(512, activation=Activation('relu'))(d1)
+    lstm1 = GRU(256)(observation_input)
+    d1 = Dropout(0.25)(lstm1)
+    h1 = Dense(256, activation=Activation('relu'))(d1)
+    h2 = Dense(256, activation=Activation('relu'))(d1)
 
     action_output = Dense(20, activation=Activation('softmax'))(h2)
 
