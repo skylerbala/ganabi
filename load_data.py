@@ -113,7 +113,7 @@ class Dataset(object):
             y = np.array(y)
             '''
 
-            steps = 6
+            steps = 4
 
             x = [[] for _ in range(batch_size)]
             y = []
