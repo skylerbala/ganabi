@@ -3,9 +3,10 @@ from keras.models import Model
 
 
 def build_model(args, cfg={}):
-    observation_input = Input(shape=(658,))
+    observation_input = Input(shape=(5, 658))
 
-    h1 = Dense(512, activation=Activation('relu'))(observation_input)
+    lstm1 = LSTM(512)(observation_input)
+    h1 = Dense(512, activation=Activation('relu'))(lstm1)
     d1 = Dropout(0.25)(h1)
     h2 = Dense(512, activation=Activation('relu'))(d1)
 
