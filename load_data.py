@@ -79,7 +79,7 @@ class Dataset(object):
             # observations = np.array(observations)
             # actions = np.array(actions)
 
-            steps = 8
+            steps = 6
             # x = np.zeros((batch_size, steps, 658))
             # y = np.zeros((batch_size, 20))
 
@@ -88,10 +88,11 @@ class Dataset(object):
 
             game = random.choice(data_bank[agent])
 
+            buffer = random.randint(0, 1)
+
             for i in range(batch_size):
                 if self.current_index + steps + 1 >= len(game[0]):
                     self.current_index = 0
-                buffer = random.randint(0, 1)
                 start = self.current_index + buffer
                 end = self.current_index + buffer + steps
                 for step in range(start, end, 2):
