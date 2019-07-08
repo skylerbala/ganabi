@@ -1,3 +1,5 @@
+import random
+
 from utils import parse_args
 import importlib
 import load_data
@@ -34,14 +36,21 @@ def main(data, args):
         loss=trainer.loss,
         metrics=trainer.metrics)
 
-    tr_history = model.fit_generator(
+    agent = random.choice(list(data.train_data))
+
+    steps_per_epoch = sum([len(game[0]) for game in data.train_data[agent]])
+    validation_steps = sum([len(game[0]) for game in data.validation_data[agent]])
+
+    print('# Fit model on training data')
+    history = model.fit_generator(
         generator=data.naive_generator(trainer.batch_size, 'train'),
-        steps_per_epoch=10,
+        steps_per_epoch=steps_per_epoch,
         verbose=2,  # one line per epoch
         epochs=trainer.epochs,  # = total data / batch_size
         validation_data=data.naive_generator(trainer.batch_size, 'validation'),
-        validation_steps=10,
+        validation_steps=validation_steps,
         shuffle=True)
+    print('\nhistory dict:', history.history)
 
     return model
 

@@ -6,5 +6,4 @@ Trainer.optimizer='Adam'
 Trainer.loss='categorical_crossentropy'
 Trainer.metrics=['accuracy']
 Trainer.batch_size=32
-Trainer.epochs=10
-
+Trainer.epochs=1

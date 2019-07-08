@@ -30,15 +30,15 @@ class Dataset(object):
             if agent == test_agent and len(raw_data.keys()) != 1:
                 continue
             split_idx = int(0.5 * len(raw_data[agent]))
-            self.train_data[agent] = raw_data[agent][:split_idx]
-            self.validation_data[agent] = raw_data[agent][split_idx:]
-
-        self.test_data[test_agent] = raw_data[test_agent]
+            self.train_data[agent] = raw_data[agent][:10]
+            self.validation_data[agent] = raw_data[agent][10: 15]
+            self.test_data[agent] = raw_data[agent][15: 20]
+        # self.test_data[test_agent] = raw_data[test_agent]
 
     def naive_generator(self, batch_size, batch_type='train'):
         '''
         10*moves = samples
-        batch_size = 32
+        batch_size = 10
         steps = 100
         1 epoch = 100 steps
         :param batch_size:
@@ -60,14 +60,56 @@ class Dataset(object):
 
             for _ in range(batch_size):
                 game = random.choice(data_bank[agent])
-                for move in range(len(game)):
-                    observations.append(game[0][move])
-                    actions.append(game[1][move])
+                move = random.randint(0, len(game[0]) - 1)
+                observations.append(game[0][move])
+                actions.append(game[1][move])
+
+            # for _ in range(batch_size):
+            #     game = random.choice(data_bank[agent])
+            #     for move in range(len(game)):
+            #         observations.append(game[0][move])
+            #         actions.append(game[1][move])
+
+            # game = random.choice(data_bank[agent])
+            # for move in range(len(game)):
+            #     observations.append(game[0][move])
+            #     actions.append(game[1][move])
 
             observations = np.array(observations)
             actions = np.array(actions)
 
+
+
+            # samples = []
+            # for _ in range(batch_size):
+            #     game = random.choise(data_bank[agent])
+            #
+            #     for time_step in len(game[0]):
+            #         observations = []
+            #         actions = []
+            #
+            #
+            # adhoc_games = [[adhoc_games[i][0][l] + adhoc_games[i][1][l]
+            #                 for l in range(game_lengths[i])]
+            #                for i in range(NUM_ADHOC_GAMES)]
+            #
+            # # assemble generated agent observations and target actions
+            # agent_obs, agent_act = [], []
+            # for i in range(NUM_AGENT_OBS):
+            #     game = random.choice(list(data_bank[agent]))
+            #     step_num = random.randint(0, len(game[0]) - 1)
+            #     agent_obs.append(game[0][step_num])
+            #     agent_act.append(game[1][step_num])
+            #
+            # # convert nested uneven list of adhoc games into padded numpy array
+            # np_adhoc_games = np.zeros(shape=(NUM_ADHOC_GAMES, MAX_GAME_LEN, OBS_ACT_VEC_LEN))
+            # game_lengths = np.array(game_lengths)
+            # for game_num, game_len in enumerate(game_lengths):
+            #     np_adhoc_games[game_num, :game_lengths[game_num], :] = \
+            #         np.asarray(adhoc_games[game_num])
+
             yield observations, actions
+
         '''
         while True:
             observations, actions = [], []

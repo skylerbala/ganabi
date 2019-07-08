@@ -2,6 +2,7 @@ from utils import parse_args, dir_utils
 import load_data
 import train
 import gin
+import evaluate
 
 
 def main():
@@ -11,14 +12,11 @@ def main():
 
     gin.parse_config_file(args.configpath)
 
-    #create/load data
     data = load_data.main(args)
 
-    #train model/load model
     model = train.main(data, args)
-    print('gang')
-    #evaluate model
-    # evaluate.main(data, model, args)
+
+    evaluate.main(args, data, model)
 
 
 if __name__ == "__main__":

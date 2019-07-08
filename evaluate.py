@@ -1,25 +1,40 @@
-# Copy code from earlier version.
+from utils import parse_args
+import gin
+import random
+import load_data
+import train
 
 
-@gin.configurable
-class Evaluator(object):
-    def __init__(self):
+# @gin.configurable
+# class Evaluator(object):
+#     def __init__(self):
+#
+#     def eval():
+#
+#     def _single_move():
+#
+#
+# # TODO
 
-    def eval():
 
-def main(model, data_reader, args):
+def main(args, data, model):
+    agent = random.choice(list(data.test_data))
+    steps = sum([len(game[0]) for game in data.test_data[agent]])
+
+    print('\n# Evaluate on test data')
+    results = model.evaluate_generator(
+        generator=data.naive_generator(32, 'test'),
+        steps=steps
+    )
+    print('test loss, test acc:', results)
+
     # read in test data
     # forward pass with model
     # display metrics, save results
 
-def single_move():
-    #TODO
 
 if __name__ == "__main__":
     args = parse_args.parse()
-    data_reader = create_data.main(args)
-    model = train.main(data_reader, args)
-    main(model, data_reader, args)
-
-
-# 10 games training; you can validate on more than 10 games
+    data = load_data.main()
+    model = train.main(data, args)
+    main(args, data, model)
