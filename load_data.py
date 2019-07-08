@@ -118,9 +118,8 @@ class Dataset(object):
             x = [[] for _ in range(batch_size)]
             y = []
 
-            game = random.choice(data_bank[agent])
-
             for i in range(batch_size):
+                game = random.choice(data_bank[agent])
                 self.current_index = random.randint(0, len(game[0]) - 1)
                 buffer = random.randint(0, 1)
 
