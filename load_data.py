@@ -82,7 +82,7 @@ class Dataset(object):
             Return: Sample of (batch_size) pairs of 3 consecutive moves
             from player X (i.e., 6 total moves passed when including player Y)
             '''
-            steps = 6
+            steps = 4
 
             x = [[] for _ in range(batch_size)]
             y = []
