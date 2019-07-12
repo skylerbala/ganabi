@@ -34,7 +34,8 @@ def main(data, args):
     model.compile(
         optimizer=trainer.optimizer,
         loss=trainer.loss,
-        metrics=trainer.metrics)
+        metrics=trainer.metrics
+    )
 
     agent = random.choice(list(data.train_data))
 

@@ -24,7 +24,7 @@ def import_agents(agents_dir, num_unique_agents, agent_config):
 
     # TODO: Fix args/ add single dir to import agents
     for agent_filename in os.listdir(agents_dir):
-        if 'agent' not in agent_filename:
+        if 'rainbow_agent_1.py' not in agent_filename:
             continue
         agent_name = os.path.splitext(agent_filename)[0]
         agent_module = importlib.import_module(agent_name)
