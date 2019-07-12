@@ -82,7 +82,7 @@ class Dataset(object):
             Return: Sample of (batch_size) pairs of 3 consecutive moves
             from player X (i.e., 6 total moves passed when including player Y)
             '''
-            steps = 4
+            steps = 5
 
             x = [[] for _ in range(batch_size)]
             y = []
@@ -97,7 +97,7 @@ class Dataset(object):
                 start = self.current_index + buffer
                 end = self.current_index + buffer + steps
 
-                for step in range(start, end, 2):
+                for step in range(start, end):
                     x[i].append(game[0][step])
                 if start == 1:
                     y.append(game[1][self.current_index + steps - 1])
