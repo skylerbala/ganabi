@@ -6,7 +6,7 @@ import gin
 import os
 
 import sys
-sys.path.insert(0, './hanabi-env') #FIXME
+sys.path.insert(0, './hanabi_env') #FIXME
 import rl_env
 
 

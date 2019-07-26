@@ -84,27 +84,23 @@ class Dataset(object):
             '''
             steps = 5
 
+
             x = [[] for _ in range(batch_size)]
             y = []
 
             for i in range(batch_size):
                 game = random.choice(data_bank[agent])
                 self.current_index = random.randint(0, len(game[0]) - 1)
-                buffer = random.randint(0, 1)
 
                 if self.current_index + steps + 1 >= len(game[0]):
                     self.current_index = 0
-                start = self.current_index + buffer
-                end = self.current_index + buffer + steps
+                start = self.current_index
+                end = self.current_index + steps
 
                 for step in range(start, end):
                     x[i].append(game[0][step])
-                if start == 1:
-                    y.append(game[1][self.current_index + steps - 1])
-                else:
-                    y.append(game[1][self.current_index + steps - 2])
-                # x[i, :] = game[0][self.current_index: self.current_index + steps]
-                # y[i] = game[1][self.current_index + steps - 1]
+
+                y.append(game[1][end])
 
                 self.current_index += steps
 
@@ -112,6 +108,13 @@ class Dataset(object):
             y = np.array(y)
 
             yield x, y
+
+
+
+
+
+
+
 
         def generator(self, batch_type='train'):
             pass
